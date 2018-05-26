@@ -23,13 +23,12 @@ function getTasks() {
   let tasks;
   if (localStorage.getItem('tasks') !== null) {
     tasks = JSON.parse(localStorage.getItem('tasks'))
-    
     tasks.forEach(function(task) {
-    
+
     const li = document.createElement("li");
     li.className = "collection-item";
     li.appendChild(document.createTextNode(task));
-  
+
     const link = document.createElement("a");
     link.className = "delete-item secondary-content";
     link.innerHTML = "<i class = 'fa fa-remove'></i>";
@@ -37,7 +36,6 @@ function getTasks() {
   li.appendChild(link);
   // li.innerHTML = `${taskInput.value} <a class = 'delete-item secondary-content'><i class='fa fa-remove'></i></a>`
   taskList.appendChild(li);
-
   })
   }
 }
