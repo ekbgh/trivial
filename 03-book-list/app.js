@@ -43,17 +43,17 @@ UI.prototype.showAlert = function(message, className) {
   container.insertBefore(div, form);
   // Set timer
   setTimeout(function() {
-    div.remove()
+    div.remove();
   }, 3000);
 };
 
 // Delete from Booklist
 UI.prototype.deleteFromBookList = function(target) {
-  if (target.classList.contains('delete')) {
+  if (target.classList.contains("delete")) {
     // remove parent element
     target.parentElement.parentElement.remove();
   }
-}
+};
 //Event Listener for add Book
 document.querySelector("#book-form").addEventListener("submit", function(e) {
   // Prevent Default submit behaviour
@@ -74,19 +74,19 @@ document.querySelector("#book-form").addEventListener("submit", function(e) {
     // Add book to list
     ui.addBookToList(book);
     // Success Alert
-    ui.showAlert('Successfully Added', 'success')
+    ui.showAlert("Successfully Added", "success");
     // Clear form fields
     ui.clearFields();
   }
 });
 
 //Event Listener for delete book
-document.querySelector('#book-list').addEventListener('click', function(e) {
+document.querySelector("#book-list").addEventListener("click", function(e) {
   e.preventDefault();
   // Instantiate UI
   const ui = new UI();
   // delte from Booklist
   ui.deleteFromBookList(e.target);
   // Show Alert
-  ui.showAlert('Successfully removed','success')
-})
+  ui.showAlert("Successfully removed", "success");
+});
