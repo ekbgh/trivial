@@ -43,7 +43,7 @@ class UI {
     // Insert Alert
     container.insertBefore(div, form);
     // Set timer
-    setTimeout(() => div.remove(), 3000);
+    setTimeout(() => div.remove(), 2000);
   }
 
   // Clear form fields
@@ -53,6 +53,47 @@ class UI {
     document.querySelector("#isbn").value = "";
   }
 }
+
+// Local Storage class
+class Store {
+  static getBooks() {
+    let books;
+    if (localStorage.getItem('books') === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem('books'));
+    }
+    return books
+  }
+
+  static displayBooks() {
+    const books = Store.getBooks();
+    const ui = new UI();
+    books.forEach(book => {
+      //Add book to UI
+      ui.addBookToList(book);
+    });
+  }
+
+  static addBook(book) {
+    const books = Store.getBooks();
+    books.push(book);
+    localStorage.setItem('books', JSON.stringify(books))
+  }
+
+  static removeBook(isbn) {
+    const books = Store.getBooks()
+    books.forEach((book,index) => {
+      if (book.isbn === isbn) {
+        books.splice(index,1)
+      }
+    });
+    localStorage.setItem('books', JSON.stringify(books))
+  }
+}
+
+//DOM Load Event
+document.addEventListener('DOMContentLoaded', Store.displayBooks())
 
 //Event Listener for add Book
 document.querySelector("#book-form").addEventListener("submit", e => {
@@ -73,6 +114,8 @@ document.querySelector("#book-form").addEventListener("submit", e => {
   } else {
     // Add book to list
     ui.addBookToList(book);
+    //Add book to Local Storage
+    Store.addBook(book);
     // Success Alert
     ui.showAlert("Successfully Added", "success");
     // Clear form fields
@@ -85,8 +128,11 @@ document.querySelector("#book-list").addEventListener("click", e => {
   e.preventDefault();
   // Instantiate UI
   const ui = new UI();
-  // delte from Booklist
+  // delete from Booklist
   ui.deleteFromBookList(e.target);
+
+  Store.removeBook(e.target.parentElement.previousElementSibling.textContent)
+
   // Show Alert
   ui.showAlert("Successfully removed", "success");
 });
